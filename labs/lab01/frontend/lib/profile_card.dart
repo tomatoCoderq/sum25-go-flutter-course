@@ -16,26 +16,44 @@ class ProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(16.0),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // TODO: add a CircleAvatar with radius 50 and backgroundImage NetworkImage(avatarUrl!) if url is not null and text name[0].toUpperCase() if url is null
-            
-            const SizedBox(height: 16),
-            // TODO: add a Text with name and style fontSize: 24, fontWeight: FontWeight.bold
-           
-            const SizedBox(height: 8),
-            // TODO: add a Text with Age: $age and style fontSize: 16
-           
-            const SizedBox(height: 8),
-            // TODO: add a Text with email and style fontSize: 16, color: Colors.grey
-            
-          ],
-        ),
+    return Container(
+      margin: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 8,
+            offset: Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          // Placeholder for avatar
+          CircleAvatar(
+            radius: 30,
+            backgroundImage:
+                avatarUrl != null ? NetworkImage(avatarUrl!) : null,
+            child: avatarUrl == null
+                ? Text(name.isNotEmpty ? name[0] : '?')
+                : null,
+          ),
+          const SizedBox(width: 16),
+          // Placeholder for text info
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(name,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              SizedBox(height: 4),
+              Text(email),
+              Text('Age: $age'),
+            ],
+          ),
+        ],
       ),
     );
   }
