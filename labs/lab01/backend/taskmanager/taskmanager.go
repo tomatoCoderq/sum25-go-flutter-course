@@ -34,14 +34,13 @@ func NewTaskManager() *TaskManager {
 	// TODO: Implement task manager initialization
 	return &TaskManager{
 		tasks:  map[int]*Task{},
-		nextID: 1, 
+		nextID: 1,
 	}
 }
 
 // AddTask adds a new task to the manager
 func (tm *TaskManager) AddTask(title, description string) (*Task, error) {
 	// TODO: Implement task addition
-
 	if title == "" {
 		return nil, ErrEmptyTitle
 	}
@@ -66,7 +65,6 @@ func (tm *TaskManager) AddTask(title, description string) (*Task, error) {
 // UpdateTask updates an existing task
 func (tm *TaskManager) UpdateTask(id int, title, description string, done bool) error {
 	// TODO: Implement task update
-
 	if title == "" {
 		return ErrEmptyTitle
 	}
@@ -74,7 +72,7 @@ func (tm *TaskManager) UpdateTask(id int, title, description string, done bool) 
 	if _, ok := tm.tasks[id]; !ok {
 		return ErrInvalidID
 	}
-	
+
 	task := tm.tasks[id]
 
 	task.Title = title
