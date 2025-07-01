@@ -38,7 +38,7 @@ func StringToFloat(s string) (float64, error) {
 		return 0, err
 	}
 
-	return float64(number), nil 
+	return float64(number), nil
 }
 
 // FloatToString converts a float64 to string with specified precision
