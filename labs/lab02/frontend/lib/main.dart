@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
 
   final ChatService chatService = ChatService();
-  final dynamic userService = null; // TODO: Replace with actual user service
+  final dynamic userService = MockUserService(); // TODO: Replace with actual user service
 
   @override
   Widget build(BuildContext context) {

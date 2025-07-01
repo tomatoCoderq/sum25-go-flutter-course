@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'chat_service.dart';
 
-// ChatScreen displays the chat UI
 class ChatScreen extends StatefulWidget {
   final ChatService chatService;
   const ChatScreen({Key? key, required this.chatService}) : super(key: key);
@@ -12,23 +11,34 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _controller = TextEditingController();
-  // TODO: Add loading/error state if needed
+  final List<String> _messages = [];
 
   @override
   void initState() {
     super.initState();
-    // TODO: Connect to chat service
+    widget.chatService.connect();
+
+    // Listen to incoming messages and update UI
+    widget.chatService.messageStream.listen((message) {
+      setState(() {
+        _messages.add(message);
+      });
+    });
   }
 
   @override
   void dispose() {
     _controller.dispose();
-    // TODO: Dispose chat service if needed
+    widget.chatService.dispose();
     super.dispose();
   }
 
   void _sendMessage() {
-    // TODO: Send message using chatService
+    final text = _controller.text.trim();
+    if (text.isNotEmpty) {
+      widget.chatService.sendMessage(text);
+      _controller.clear();
+    }
   }
 
   @override
@@ -38,14 +48,11 @@ class _ChatScreenState extends State<ChatScreen> {
       body: Column(
         children: [
           Expanded(
-            child: StreamBuilder<String>(
-              stream: widget.chatService.messageStream,
-              builder: (context, snapshot) {
-                // TODO: Display messages, loading, and error states
-                return ListView(
-                  children: [
-                    // TODO: Build message widgets from snapshot.data
-                  ],
+            child: ListView.builder(
+              itemCount: _messages.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(_messages[index]),
                 );
               },
             ),
