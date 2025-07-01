@@ -30,13 +30,8 @@ type TaskManager struct {
 func NewTaskManager() *TaskManager {
 	// TODO: Implement task manager initialization
 	return &TaskManager{
-<<<<<<< HEAD
 		tasks:  map[int]Task{},
-		nextID: 1, 
-=======
-		tasks:  map[int]*Task{},
 		nextID: 1,
->>>>>>> 525f901 (a few changes)
 	}
 }
 
@@ -80,6 +75,8 @@ func (tm *TaskManager) UpdateTask(id int, title, description string, done bool) 
 	task.Title = title
 	task.Description = description
 	task.Done = done
+
+	tm.tasks[id] = task
 
 	return nil
 }

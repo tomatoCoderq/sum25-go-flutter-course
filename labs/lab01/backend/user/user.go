@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"net/mail"
+	"strings"
 )
 
 // Predefined errors
@@ -57,6 +58,15 @@ func NewUser(name string, age int, email string) (*User, error) {
 // IsValidEmail checks if the email format is valid
 // You can use regexp.MustCompile to compile the email regex
 func IsValidEmail(email string) bool {
+	parts := strings.Split(email, "@")
+	if len(parts) != 2 {
+		return false
+	}
+
+	if !strings.Contains(parts[1], ".") {
+		return false
+	}
+
 	if _, err := mail.ParseAddress(email); err != nil {
 		return false
 	}
