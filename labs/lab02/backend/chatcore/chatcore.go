@@ -2,6 +2,7 @@ package chatcore
 
 import (
 	"context"
+	"fmt"
 	"sync"
 )
 
@@ -42,8 +43,39 @@ func NewBroker(ctx context.Context) *Broker {
 
 // Run starts the broker event loop (goroutine)
 func (b *Broker) Run() {
-	// TODO: Implement event loop (fan-in/fan-out pattern)
+	for {
+		select {
+		case <-b.ctx.Done():
+			close(b.done)
+			return
+
+		case msg := <-b.input:
+			b.usersMutex.RLock()
+			if msg.Broadcast {
+				for _, ch := range b.users {
+					select {
+					case ch <- msg:
+					default:
+						fmt.Println("default")
+					}
+				}
+			} else {
+				if ch, ok := b.users[msg.Recipient]; ok {
+					select {
+					case ch <- msg:
+					default:
+						// Optional: drop or log if channel is full
+					}
+				}
+			}
+			b.usersMutex.RUnlock()
+		}
+
+	}
+
 }
+
+// TODO: Implement event loop (fan-in/fan-out pattern)
 
 // SendMessage sends a message to the broker
 func (b *Broker) SendMessage(msg Message) error {
