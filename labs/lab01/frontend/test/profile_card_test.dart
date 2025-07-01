@@ -108,10 +108,6 @@ void main() {
             name: 'John Doe',
             email: 'john@example.com',
             age: 30,
-<<<<<<< HEAD
-=======
-            avatarUrl: 'https://t.me/i/userpic/320/L0ep1yvhyFBLGN_NIG-EgMts7voEHfvNlfRW3nKCaOc.jpg',
->>>>>>> 525f9017bfc2bde72bdea60866047803f88f9c25
           ),
         ),
       ),
