@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-// So some changes here to be able to make pull-request
+// So some changes here to be able to make pull-request v2
 
 // ErrDivisionByZero is returned when attempting to divide by zero
 var ErrDivisionByZero = errors.New("division by zero")
