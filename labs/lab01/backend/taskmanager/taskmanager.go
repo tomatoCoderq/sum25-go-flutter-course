@@ -76,8 +76,11 @@ func (tm *TaskManager) UpdateTask(id int, title, description string, done bool) 
 	task.Description = description
 	task.Done = done
 
+<<<<<<< HEAD
 	tm.tasks[id] = task
 
+=======
+>>>>>>> 525f9017bfc2bde72bdea60866047803f88f9c25
 	return nil
 }
 
