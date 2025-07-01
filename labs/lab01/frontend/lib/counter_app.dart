@@ -10,21 +10,19 @@ class CounterApp extends StatefulWidget {
 class _CounterAppState extends State<CounterApp> {
   int _counter = 0;
 
-  void _increment() {
+  void _incrementCounter() {
     setState(() {
       _counter++;
     });
   }
 
-  void _decrement() {
-    // TODO: Implement decrement
+  void _decrementCounter() {
     setState(() {
       _counter--;
     });
   }
 
-  void _reset() {
-    // TODO: Implement reset
+  void _resetCounter() {
     setState(() {
       _counter = 0;
     });
@@ -32,35 +30,82 @@ class _CounterAppState extends State<CounterApp> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Implement counter UI
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Counter App'),
+        actions: [
+          // FloatingActionButton(
+          //   onPressed: _resetCounter,
+          //   tooltip: "Reset",
+          //   child: const Icon(Icons.refresh),
+          // ),
+          IconButton(icon: const Icon(Icons.refresh), onPressed: _resetCounter),
+        ],
+      ),
       // appBar: AppBar(title: const Text("Counter")),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(height: 20),
+            Text(
+              '$_counter',
+              style: const TextStyle(fontSize: 48),
+            ),
+            const SizedBox(height: 32),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Text('$_counter', style: const TextStyle(fontSize: 24)),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text('Counter'),
-                    const SizedBox(width: 2.0),
-                    Text('$_counter')
-                  ],
+                FloatingActionButton(
+                  onPressed: _decrementCounter,
+                  tooltip: "Decrement",
+                  child: const Icon(Icons.remove),
                 ),
-                IconButton(
-                    icon: const Icon(Icons.remove), onPressed: _decrement),
-                IconButton(icon: const Icon(Icons.add), onPressed: _increment),
-                IconButton(icon: const Icon(Icons.refresh), onPressed: _reset),
+                FloatingActionButton(
+                  onPressed: _incrementCounter,
+                  tooltip: "Increment",
+                  child: const Icon(Icons.add),
+                ),
+                // IconButton(
+                //     icon: const Icon(Icons.remove),
+                //     onPressed: _decrementCounter),
+                // const SizedBox(width: 32),
+                // IconButton(
+                //     icon: const Icon(Icons.add), onPressed: _incrementCounter),
               ],
-            )
+            ),
           ],
         ),
       ),
+      // Add a FloatingActionButton to increment the counter
+
+      // body: Center(
+      // child: Column(
+      //   mainAxisAlignment: MainAxisAlignment.center,
+      //   children: [
+      //     const SizedBox(height: 20),
+      //     Row(
+      //       mainAxisAlignment: MainAxisAlignment.center,
+      //       children: [
+      //         // Text('$_counter', style: const TextStyle(fontSize: 24)),
+      //         Row(
+      //           mainAxisAlignment: MainAxisAlignment.center,
+      //           children: [
+      //             const Text('Counter'),
+      //             const SizedBox(width: 2.0),
+      //             Text('$_counter')
+      //           ],
+      //         ),
+      //         IconButton(
+      //             icon: const Icon(Icons.remove),
+      //             onPressed: _decrementCounter),
+      //         IconButton(
+      //             icon: const Icon(Icons.add), onPressed: _incrementCounter),
+      //         IconButton(
+      //             icon: const Icon(Icons.refresh), onPressed: _resetCounter),
+      //       ],
+      //     )
+      //   ],
+      // ),
     );
   }
 }
