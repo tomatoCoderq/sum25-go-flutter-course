@@ -11,22 +11,26 @@ class ChatService {
   final StreamController<String> _controller =
       StreamController<String>.broadcast();
   bool failSend = false;
+  bool _isConnected = false;
+
 
   ChatService();
 
   Future<void> connect() async {
     // TODO: Simulate connection (for tests)
+      await Future.delayed(const Duration(milliseconds: 500));
+    _isConnected = true;
     // await Future.delayed(...)
   }
 
   Future<void> sendMessage(String msg) async {
     // TODO: Simulate sending a message (for tests)
-    // await Future.delayed(...)
-    // _controller.add(msg)
+    await Future.delayed(Duration(milliseconds: 500));
+    _controller.add("You: $msg");
   }
 
   Stream<String> get messageStream {
     // TODO: Return stream of incoming messages (for tests)
-    throw UnimplementedError();
+    return _controller.stream;
   }
 }
