@@ -1,18 +1,17 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:http/src/mock_client.dart';
 import '../models/message.dart';
 
 class ApiService {
   static const String baseUrl = 'http://localhost:8080';
   static const Duration timeout = Duration(seconds: 30);
-  late http.Client _client;
+  final http.Client client;
 
-  ApiService() {
-    _client = http.Client();
-  }
+  ApiService({http.Client? client}) : client = client ?? http.Client();
 
   void dispose() {
-    _client.close();
+    client.close();
   }
 
   Map<String, String> _getHeaders() {
@@ -38,14 +37,13 @@ class ApiService {
 
   Future<List<Message>> getMessages() async {
     try {
-      final response = await _client
+      final response = await client
           .get(Uri.parse('$baseUrl/api/messages'), headers: _getHeaders())
           .timeout(timeout);
 
       return _handleResponse(response, (data) {
-        return (data['messages'] as List)
-            .map((message) => Message.fromJson(message))
-            .toList();
+        final list = data['data'] as List<dynamic>; // <-- changed: use 'data' key instead of 'messages';
+        return list.map((m) => Message.fromJson(m as Map<String, dynamic>)).toList();
       });
     } catch (e) {
       throw NetworkException('Failed to load messages: $e');
@@ -58,7 +56,7 @@ class ApiService {
     }
 
     try {
-      final response = await _client
+      final response = await client
           .post(Uri.parse('$baseUrl/api/messages'),
               headers: _getHeaders(),
               body: json.encode(request.toJson()))
@@ -78,7 +76,7 @@ class ApiService {
     }
 
     try {
-      final response = await _client
+      final response = await client
           .put(Uri.parse('$baseUrl/api/messages/$id'),
               headers: _getHeaders(),
               body: json.encode(request.toJson()))
@@ -94,7 +92,7 @@ class ApiService {
 
   Future<void> deleteMessage(int id) async {
     try {
-      final response = await _client
+      final response = await client
           .delete(Uri.parse('$baseUrl/api/messages/$id'), headers: _getHeaders())
           .timeout(timeout);
 
@@ -108,7 +106,7 @@ class ApiService {
 
   Future<HTTPStatusResponse> getHTTPStatus(int statusCode) async {
     try {
-      final response = await _client
+      final response = await client
           .get(Uri.parse('$baseUrl/api/status/$statusCode'),
               headers: _getHeaders())
           .timeout(timeout);
@@ -123,7 +121,7 @@ class ApiService {
 
   Future<Map<String, dynamic>> healthCheck() async {
     try {
-      final response = await _client
+      final response = await client
           .get(Uri.parse('$baseUrl/api/health'), headers: _getHeaders())
           .timeout(timeout);
 

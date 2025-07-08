@@ -270,7 +270,7 @@ class _ChatScreenState extends State<ChatScreen> {
         children: [
           TextField(
             controller: _usernameController,
-            decoration: const InputDecoration(labelText: 'Username'),
+            decoration: const InputDecoration(labelText: 'Enter your username'),
           ),
           TextField(
             controller: _messageController,
@@ -332,26 +332,37 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('REST API Chat'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _loadMessages,
-          ),
-        ],
-      ),
-      body: const Center(child: Text('TODO: Implement chat functionality')),
-      bottomSheet: _buildMessageInput(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _loadMessages,
-        child: const Icon(Icons.refresh),
-      ),
-    );
-  }
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: const Text('REST API Chat'),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.refresh),
+          onPressed: _loadMessages,
+        ),
+      ],
+    ),
+    body: _isLoading
+        ? _buildLoadingWidget()
+        : _error != null
+            ? _buildErrorWidget()
+            : _messages.isEmpty
+                ? const Center(child: Text('No messages yet'))
+                : ListView.builder(
+                    itemCount: _messages.length,
+                    itemBuilder: (context, index) {
+                      return _buildMessageTile(_messages[index]);
+                    },
+                  ),
+    bottomSheet: _buildMessageInput(),
+    floatingActionButton: FloatingActionButton(
+      onPressed: _loadMessages,
+      child: const Icon(Icons.refresh),
+    ),
+  );
+}
 }
 
 // Helper class for HTTP status demonstrations

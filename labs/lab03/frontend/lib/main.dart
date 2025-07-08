@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:lab03_frontend/models/message.dart';
 import 'package:provider/provider.dart';
 import 'screens/chat_screen.dart';
